@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}My orders{% endblock %}
+{% block content %} 
+<div class="my-content container p-5 my-5 rounded border border-warning">
+    <h2 class="text-center">My orders
+    <hr>
+
+    {%if request.user.is_authenticated %}
+           {%if all_orders %}
+              {% if all_orders.count > 0 %}
+              <h5 class= "alert alert-warning">
+                  No. of orders: {{all_orders.count}} orders              </h5>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">order ID</th>
+                    <th scope="col">Order date</th>
+                    <th scope="col">Item count</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">completed</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+               {%endif%}
+               
+                    {%for order in all_orders%}
+                        
+                        <tr>
+                            <th>{{forloop.counter}} </th>
+                            <td>{{order.id}}</td>
+                            <td>{{order.order_date}}</td>
+                            <td>{{order.item_count}}</td>
+                            <td>{{order.total}}</td>
+                            <td>
+                                {%if order.is_finished == True%}
+                                    Completed
+                                {%else%}
+                                    Not Completed
+                                {%endif%}
+                            </td>
+                         </tr>
+                        <hr>
+                    {%endfor%}
+
+                </tbody>
+            </table>
+            {%else%}
+                <h4 class="alert alert-warning">You have not sumitted any orders yet</h4>
+                <a href="{% url 'products' %}" class="btn btn-outline-warning float-right m-1"> continue shopping</a>
+            {%endif%} 
+    {%else%}
+      <h4 class="text-center">
+        You are not login, Kindly <a href="{% url 'signin'  %}" class="text-dark">login 
+         </a>
+      </h4>
+     
+    {%endif%}
+</h5>
+<hr>
+  {% endblock  %}
+
